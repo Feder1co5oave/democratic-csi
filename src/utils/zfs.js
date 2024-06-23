@@ -1,11 +1,6 @@
 const events = require("events");
 const cp = require("child_process");
 
-const escapeShell = function (cmd) {
-  cmd = String(cmd);
-  return '"' + cmd.replace(/(["$`\\])/g, "\\$1") + '"';
-};
-
 class Zetabyte {
   constructor(options = {}) {
     const zb = this;
@@ -297,7 +292,6 @@ class Zetabyte {
           }
           if (options.fsProperties) {
             for (let [key, value] of Object.entries(options.fsProperties)) {
-              value = escapeShell(value);
               args.push("-O");
               args.push(`${key}=${value}`);
             }
@@ -788,7 +782,6 @@ class Zetabyte {
        * @param {*} value
        */
       set: function (pool, property, value) {
-        value = escapeShell(value);
         return new Promise((resolve, reject) => {
           let args = [];
           args.push("set");
